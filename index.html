@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PDF Analyzer with Gemini</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Bubblegum+Sans&family=Kalam&family=Luckiest+Guy&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <h1>PDF Analyzer with Gemini</h1>
+
+  <!-- Search Bar -->
+  <input type="text" id="searchBar" placeholder="🔍 Search for topics..." />
+
+  <!-- Subject Selection -->
+  <form method="POST" enctype="multipart/form-data">
+    <label for="subject">Choose Subject:</label>
+    <select name="subject" id="subject" required>
+      <option value="">-- Select Subject --</option>
+      <option value="english">English</option>
+      <option value="tamil">Tamil</option>
+      <option value="maths">Maths</option>
+      <optgroup label="Science">
+        <option value="physics">Physics</option>
+        <option value="chemistry">Chemistry</option>
+        <option value="biology">Biology</option>
+      </optgroup>
+      <optgroup label="Social">
+        <option value="geography">Geography</option>
+        <option value="history">History</option>
+      </optgroup>
+    </select>
+
+    <!-- PDF Upload -->
+    <label for="pdf" data-tooltip="Upload a PDF to get analysis, summaries & questions">Upload PDF File:</label>
+    <input type="file" name="pdf" id="pdf" accept="application/pdf" required>
+
+    <button type="submit">Analyze PDF</button>
+  </form>
+
+  <!-- Relatable Answer & Critical Thinking Toggle -->
+  {% if result %}
+    <div class="response">
+      <h2>Gemini's Answer:</h2>
+      <p>{{ result }}</p>
+
+      {% if critical_questions %}
+        <h3>Critical Thinking Questions:</h3>
+        <ul>
+          {% for q in critical_questions %}
+            <li>{{ q }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <!-- Help Button -->
+  <button id="helpBtn" title="Need Help?">?</button>
+
+  <script>
+    document.getElementById('helpBtn').addEventListener('click', () => {
+      alert("📘 Instructions:\n1. Select a subject\n2. Upload your PDF\n3. Click 'Analyze PDF'\nYou’ll receive insights + critical thinking questions!");
+    });
+  </script>
+</body>
+</html>
