@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Homework Assistant - Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <h1>Upload a PDF & Choose Subject</h1>
+
+  <form method="POST" enctype="multipart/form-data">
+    <label for="student_class">Select Class:</label>
+    <select name="student_class" id="student_class" required>
+      {% for i in range(1, 13) %}
+        <option value="{{ i }}">Class {{ i }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="subject">Subject:</label>
+    <select name="subject" id="subject">
+      <option value="english">English</option>
+      <option value="tamil">Tamil</option>
+      <option value="maths">Maths</option>
+      <optgroup label="Science">
+        <option value="physics">Physics</option>
+        <option value="chemistry">Chemistry</option>
+        <option value="biology">Biology</option>
+      </optgroup>
+      <optgroup label="Social">
+        <option value="geography">Geography</option>
+        <option value="history">History</option>
+      </optgroup>
+    </select>
+
+    <label for="pdf">Upload PDF:</label>
+    <input type="file" name="pdf" id="pdf" accept="application/pdf" required>
+
+    <button type="submit">Analyze</button>
+  </form>
+
+  {% if result %}
+    <div class="response">
+      <h2>Gemini's Insights:</h2>
+      <p>{{ result }}</p>
+    </div>
+  {% endif %}
+
+  {% if amplitude_questions %}
+    <div class="response">
+      <h2>General Knowledge & Aptitude Questions:</h2>
+      <ul>
+        {% for q in amplitude_questions %}
+          <li>{{ q }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+</body>
+</html>
